@@ -8,7 +8,7 @@ reviewer: ""
 ---
 
 February 13, 2024 / [#JavaScript][1]
-2024年2月13日 / [#JavaScript][1]
+2024 年 2 月 13 日 / [#JavaScript][1]
 
 <!-- more -->
 
