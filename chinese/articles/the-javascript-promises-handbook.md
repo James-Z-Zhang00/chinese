@@ -25,18 +25,18 @@ Many operations, such as network requests, are asynchronous in nature. One of th
 
 ## 目录
 
-1.  [Promise是什么][3]
-2.  [Promises与其他异步模式的比较][4]
-3.  [如何创建一个Promise][5]
-4.  [如何获取Promise的结果][6]
+1.  [Promise 是什么][3]
+2.  [Promises 与其他异步模式的比较][4]
+3.  [如何创建一个 Promise][5]
+4.  [如何获取 Promise 的结果][6]
 5.  [如何使用`then`处理错误][7]
-6.  [Promise链接][8]
-7.  [如何创建立即满足或拒绝的Promises][9]
+6.  [Promise 链接][8]
+7.  [如何创建立即满足或拒绝的 Promises][9]
 8.  [如何使用`async`和`await`][10]
-9.  [反模式Promise][11]
+9.  [反模式 Promise][11]
 10. [总结][12]
 
-## Promise是什么
+## Promise 是什么
 
 Let's begin by looking at what a Promise is.
 
