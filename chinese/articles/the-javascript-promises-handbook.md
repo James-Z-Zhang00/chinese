@@ -7,35 +7,36 @@
 reviewer: ""
 ---
 
-February 13, 2024 / [#JavaScript][1]
 2024 年 2 月 13 日 / [#JavaScript][1]
 
 <!-- more -->
 
-# How JavaScript Promises Work – Handbook for Beginners
+# JavaScript Promises 工作原理 - 初学者手册
 
 ![Joe Attardi](https://www.freecodecamp.org/news/content/images/size/w60/2023/10/5.png)
 
-[Joe Attardi][2]
+[乔·阿塔迪（Joe Attardi）][2]
 
   ![How JavaScript Promises Work – Handbook for Beginners](https://www.freecodecamp.org/news/content/images/size/w2000/2024/02/How-JavaScript-Promises-Work-Cover.png)
 
 Many operations, such as network requests, are asynchronous in nature. One of the most useful and powerful tools for working with asynchronous code is the Promise. In this handbook, you'll learn all about JavaScript Promises and how to use them.
 
-## Table of Contents
+许多操作，如网络请求，本质上是异步的。在处理异步代码时，最有用和最强大的工具之一是 Promise。在这本手册中，您将了解有关 JavaScript Promises 的所有信息以及如何使用它们。
 
-1.  [What is a Promise?][3]
-2.  [Comparing Promises to Other Async Patterns][4]
-3.  [How to Create a Promise][5]
-4.  [How to Get the Result of a Promise][6]
-5.  [How to Handle Errors with `then`][7]
-6.  [Promise Chaining][8]
-7.  [How to Create Immediately Fulfilled or Rejected Promises][9]
-8.  [How to Use `async` and `await`][10]
-9.  [Promise Anti-Patterns][11]
-10.  [Summary][12]
+## 目录
 
-## What is a Promise?
+1.  [Promise是什么][3]
+2.  [Promises与其他异步模式的比较][4]
+3.  [如何创建一个Promise][5]
+4.  [如何获取Promise的结果][6]
+5.  [如何使用`then`处理错误][7]
+6.  [Promise链接][8]
+7.  [如何创建立即满足或拒绝的Promises][9]
+8.  [如何使用`async`和`await`][10]
+9.  [反模式Promise][11]
+10. [总结][12]
+
+## Promise是什么
 
 Let's begin by looking at what a Promise is.
 
@@ -742,7 +743,7 @@ Learn to code for free. freeCodeCamp's open source curriculum has helped more th
 
 [1]: /news/tag/javascript/
 [2]: /news/author/joeattardi/
-[3]: #what-is-a-promise
+[3]: #Promise是什么
 [4]: #comparing-promises-to-other-async-patterns
 [5]: #how-to-create-a-promise
 [6]: #how-to-get-the-result-of-a-promise
