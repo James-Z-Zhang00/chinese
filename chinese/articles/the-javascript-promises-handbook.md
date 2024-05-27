@@ -1,9 +1,9 @@
 ---
-标题:JavaScript Promises 工作原理 - 初学者手册
-作者:乔·阿塔迪（Joe Attardi）
-作者页面:https://www.freecodecamp.org/news/author/joeattardi/
-原始页面:https://www.freecodecamp.org/news/the-javascript-promises-handbook/
-译者:"James Z. Zhang"
+标题: JavaScript Promises 工作原理 - 初学者手册
+作者: 乔·阿塔迪（Joe Attardi）
+作者页面: https://www.freecodecamp.org/news/author/joeattardi/
+原始页面: https://www.freecodecamp.org/news/the-javascript-promises-handbook/
+译者: "James Z. Zhang"
 reviewer: ""
 ---
 
