@@ -19,9 +19,7 @@ reviewer: ""
 
   ![How JavaScript Promises Work – Handbook for Beginners](https://www.freecodecamp.org/news/content/images/size/w2000/2024/02/How-JavaScript-Promises-Work-Cover.png)
 
-Many operations, such as network requests, are asynchronous in nature. One of the most useful and powerful tools for working with asynchronous code is the Promise. In this handbook, you'll learn all about JavaScript Promises and how to use them.
-
-许多操作，如网络请求，本质上是异步的。在处理异步代码时，最有用和最强大的工具之一是 Promise。在这本手册中，您将了解有关 JavaScript Promises 的所有信息以及如何使用它们。
+许多操作，如网络请求，本质上是异步的。在处理异步代码时，Promise 是最有用和最强大的工具之一。在这本手册中，您将了解有关 JavaScript Promises 的所有信息以及如何使用它们。
 
 ## 目录
 
@@ -38,33 +36,39 @@ Many operations, such as network requests, are asynchronous in nature. One of th
 
 ## Promise 是什么
 
-Let's begin by looking at what a Promise is.
+首先，让我们了解一下什么是 Promise。
 
-In simple terms, a Promise is an object representing an asynchronous operation. This object can tell you when the operation succeeds, or when it fails.
+简单来说，Promise 是一个代表异步操作的对象。这个对象可以告诉你操作何时成功，或者何时失败。
 
-When you call a Promise-based API, the function returns a Promise object that will eventually provide the result of the operation.
+当你调用一个基于 Promise 的 API 时，函数返回一个 Promise 对象来告诉你最终的操作结果。
 
-### Promise states
+### Promise 的状态
 
-During its lifetime, a Promise can be in one of three states:
+在其生命周期中，Promise 可以处于以下三种状态之一：
 
--   **Pending**: A Promise is pending while the operation is still in progress. It's in an idle state, waiting for the eventual result (or error).
--   **Fulfilled**: The asynchronous task that returned the Promise completed successfully. A Promise is fulfilled with a value, which is the result of the operation.
--   **Rejected**: If the asynchronous operation failed, the Promise is said to be rejected. A Promise is rejected with a _reason_. This typically is an `Error` object, but a Promise can be rejected with any value – even a simple number or string!
+-   **待定（Pending）**: 当操作仍在进行中时，Promise 处于待定状态。它处于闲置状态，等待最终结果或错误。
+-   **已实现（Fulfilled）**: 返回 Promise 的异步任务成功完成。Promise 被一个值实现，这个值是操作的结果。
+-   **已拒绝（Rejected）**: 如果异步操作失败，Promise 被认为是拒绝的。Promise 会有一个_拒绝理由_。这通常是一个错误（Error）对象，也可以是任何错误值——甚至是一个简单的数字或字符串！
 
 A Promise starts out in the pending state, then depending on the result, will transition to either the fulfilled or rejected state. A Promise is said to be _settled_ once it reaches either the fulfilled or rejected state.
+Promise 一开始处于待定（pending）状态，然后根据结果，会过渡到实现（fulfilled）或拒绝（rejected）状态。一旦 Promise 达到实现或拒绝状态，就被认为是 _已解决（settled）_。
 
 Of course, there is no guarantee that the asynchronous task will ever complete. It's completely possible for a `Promise` to remain in the pending state forever, though this would be because of a bug in the asynchronous task's code.
+当然，不是所有的异步任务都会最终完成。一个 `Promise` 可能永远保持在待定状态，尽管这通常是由于异步任务的代码中存在错误。
 
 ## Comparing Promises to Other Async Patterns
+## Promises 与其他异步模式的比较
 
 Promises behave a little differently from other asynchronous patterns in JavaScript. Before diving deeper into Promises, let's briefly compare Promises to these other techniques.
+Promise 与 JavaScript 中的其他异步模式有些不同。在深入了解 Promise 之前，让我们简要比较一下 Promise 和这些其他技术。
 
-### Callback functions
+### 回调函数
 
 A callback function is a function that you pass to another function. When the function you call has finished its work, it will execute your callback function with the result.
+回调函数是你传递给另一个函数的函数。当你调用的函数完成其工作后，它将执行你的回调函数，并提供结果。
 
 Imagine a function called `getUsers` which will make a network request to get an array of users. You can pass a callback function to `getUsers`, which will be called with the array of users once the network request is complete:
+想象一个名为 `getUsers` 的函数，它将发起网络请求以获取用户数组。你可以将一个回调函数传递给 `getUsers`，一旦网络请求完成，这个回调函数就会被调用，并传入用户数组：
 
 ```javascript
 console.log('Preparing to get users');
@@ -75,18 +79,25 @@ console.log('Users request sent');
 ```
 
 An example of a callback function
+回调函数的一个例子
 
 First, the above code will print "Preparing to get users". Then it calls `getUsers` which will initiate the network request. But JavaScript doesn't wait for the request to complete. Instead, it immediately executes the next `console.log` statement.
+首先，上述代码将打印（在console中显示，译者注）“准备获取用户”。然后它调用 `getUsers`，这将启动网络请求。但是 JavaScript 不会等待请求完成。相反，它会立即执行下一个 console.log 语句。
 
 Later, once the users have been loaded, your callback will be executed and "Got users" will be printed.
+稍后，一旦用户被加载，你的回调函数将被执行，屏幕上将会显示“已获取用户”。
 
 Some callback-based APIs, such as many Node.js APIs, use _error-first callbacks_. These callback functions take two arguments. The first argument is an error, and the second is the result.
+一些基于回调的 API，如许多 Node.js API，使用 _错误优先的回调（error-first callbacks）_。这些回调函数有两个参数。第一个参数是错误（error），第二个是结果（result）。
 
 Typically, only one of these will have a value, depending on the outcome of the operation. This is similar to the fulfilled and rejected Promise states.
+通常，这两者中只有一个会有值，这取决于操作的结果。这与 Promise 的已实现和已拒绝状态类似。
 
 The trouble with callback APIs is that of nesting. If you need to make multiple asynchronous calls in sequence, you’ll end up with nested function calls and callbacks.
+回调 API 的问题在于嵌套。如果你需要按顺序进行多个异步调用，你将结束于嵌套的函数调用和回调。
 
 Imagine you want to read a file, process some data from that file, then write a new file. All three of these tasks are asynchronous and use an imaginary callback based API.
+想象一下，你想读取一个文件，处理该文件中的一些数据，然后写一个新文件。这三个任务都是异步的，并使用一个假想的基于回调的 API。
 
 ```javascript
 readFile('sourceData.json', data => {
@@ -99,8 +110,10 @@ readFile('sourceData.json', data => {
 ```
 
 A sequence of nested callbacks
+回调序列嵌套
 
 It gets even more unwieldy with error handling. Imagine these functions used error-first callbacks:
+在错误处理方面，情况变得更加复杂。想象一下，这些函数使用错误优先的回调：
 
 ```javascript
 readFile('sourceData.json', (error, data) => {
@@ -128,16 +141,22 @@ readFile('sourceData.json', (error, data) => {
 ```
 
 A sequence of nested error-first callbacks
+错误优先的回调序列嵌套
 
 Callback functions aren't typically used directly as an asynchronous mechanism in modern APIs, but as you'll soon see, they are the foundation for other types of asynchronous tools such as Promises.
+现代 API 中的异步机制通常不直接使用回调函数，但正如你很快会看到的，它们是其他类型异步工具（如 Promise）的基础。
 
 ### Events
+### 事件（Events）
 
 An event is something that you can listen for and respond to. Some objects in JavaScript are event _emitters_, which means you can register event listeners on them.
+事件是你可以监听并做出响应的东西。在 JavaScript 中，一些对象是事件的 _发射器（emitters）_，这意味着你可以在它们上注册事件监听器（event listener，用来监视软件的变化，比如用户点击了鼠标。译者注）。
 
 In the DOM, many elements implement the `EventTarget` interface which provides `addEventListener` and `removeEventListener` methods.
+在 DOM 中，许多元素实现了 `EventTarget` 接口，它提供了 `addEventListener` 和 `removeEventListener` 方法。 ------(more accurate translation needed)
 
 A given type of event can occur more than once. For example, you can listen for the click event on a button:
+一个给定类型的事件可以发生多次。例如，你可以监听按钮上的点击事件（click event）：
 
 ```javascript
 myButton.addEventListener('click', () => {
