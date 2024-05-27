@@ -82,7 +82,7 @@ An example of a callback function
 回调函数的一个例子
 
 First, the above code will print "Preparing to get users". Then it calls `getUsers` which will initiate the network request. But JavaScript doesn't wait for the request to complete. Instead, it immediately executes the next `console.log` statement.
-首先，上述代码将打印（在console中显示，译者注）“准备获取用户”。然后它调用 `getUsers`，这将启动网络请求。但是 JavaScript 不会等待请求完成。相反，它会立即执行下一个 console.log 语句。
+首先，上述代码将打印（在 console 中显示，译者注）“准备获取用户”。然后它调用 `getUsers`，这将启动网络请求。但是 JavaScript 不会等待请求完成。相反，它会立即执行下一个 console.log 语句。
 
 Later, once the users have been loaded, your callback will be executed and "Got users" will be printed.
 稍后，一旦用户被加载，你的回调函数将被执行，屏幕上将会显示“已获取用户”。
