@@ -165,12 +165,16 @@ myButton.addEventListener('click', () => {
 ```
 
 Listening for a click on a button
+监听按钮的点击 ------(more accurate translation needed)
 
 Every time the button is clicked, the text "button was clicked!" will be printed to the console.
+每次按钮被点击时，控制台都会打印“button was clicked!”（按钮被点击了！）。
 
 `addEventListener` itself accepts a callback function. Whenever the event occurs, the callback is executed.
+`addEventListener` 本身接受一个回调函数。每当事件发生时，回调函数就会被执行。
 
 An object can emit multiple types of events. Consider an image object. If the image at the specified URL is loaded successfully, the `load` event is triggered. If there was an error, this event is not triggered and instead the `error` event is triggered.
+一个对象可以发出多种类型的事件。考虑一个图像对象。如果指定 URL 的图像成功加载，`加载事件（load）` 将被触发。如果发生错误，这个事件不会触发，而是触发 `错误事件（error）`。
 
 ```javascript
 myImage.addEventListener('load', () => {
@@ -183,18 +187,24 @@ myImage.addEventListener('error', error => {
 ```
 
 Listening for an image's load and error events
+监听图像的加载和错误事件
 
 Suppose the image already completed loading before you added the event listener. What do you think would happen? Nothing! One drawback of event-based APIs is that if you add an event listener after an event, your callback won't be executed. This makes sense, after all – you wouldn't want to receive all past click events when you add a click listener to a button.
+假设在你添加事件监听器之前，图像已经完成了加载。你认为会发生什么呢？什么也不会发生！基于事件的 API 的一个缺点是，如果你在事件发生后添加事件监听器，你的回调将不会被执行。这是有道理的——毕竟，当你向按钮添加点击监听器时，你不会想接收所有过去的点击事件。
 
 Now that we've explored callbacks and events, let's take a closer look at Promises.
+现在我们已经探讨了回调和事件，让我们更仔细地看看 Promise。
 
 ## How to Create a Promise
-
+## 如何创建一个 Promiose
 You can create a Promise using the `new` keyword with the `Promise` constructor. The `Promise` constructor takes a callback function that takes two arguments, called `resolve` and `reject`. Each of these arguments is a function provided by the Promise, which are used to transition the Promise to either the fulfilled or rejected state.
+你可以使用 `new` 关键字和 `Promise` 构造器来创建一个 `Promise`。`Promise` 构造器接受一个回调函数，该函数带有两个参数，称为 `resolve` 和 `reject`。这两个参数都是由 `Promise` 提供的函数，用于将 `Promise` 转换到已实现或已拒绝状态。
 
 Inside your callback, you perform your asynchronous work. If the task is successful, you call the `resolve` function with the final result. If there was an error, you call the `reject` function with the error.
+在你的回调中，你执行你的异步工作。如果任务成功，你用最终结果调用 `resolve` 函数。如果发生错误，你用错误调用 `reject` 函数。
 
 Here's an example of creating a Promise that wraps the browser's `setTimeout` function:
+以下是一个创建 Promise 的示例，该示例包装了浏览器的 `setTimeout` 函数：
 
 ```javascript
 function wait(duration) {
@@ -204,19 +214,25 @@ function wait(duration) {
 }
 ```
 
-Wrapping setTimeout in a Promise
+将 setTimeout 包装在 Promise 中 ------(more accurate translation needed)
 
 The `resolve` function is passed as the first argument to `setTimeout`. After the time specified by `duration` has passed, the browser calls the `resolve` function which fulfills the Promise.
+`resolve` 函数作为第一个参数传递给 `setTimeout`。在由 `duration` 指定的时间过后，浏览器调用 `resolve` 函数，这会实现 Promise。
 
 Note: In this example, the delay before the `resolve` function is called may be longer than the duration passed to the function. This is because `setTimeout` does not guarantee execution at the specified time.
+注意：在这个示例中，调用 `resolve` 函数之前的延迟可能比 duration 指定的时间要长。这是因为 `setTimeout` 并不保证在指定时间执行。------(more accurate translation needed)
 
 It's important to note that often times, you won't actually need to construct your own Promise by hand. You will typically be working with Promises returned by other APIs.
+重要的是要注意，通常情况下，你实际上不需要手动构建自己的 Promise。你通常会使用其他 API 返回的 Promise。
 
 ## How to Get the Result of a Promise
+## 如何获取 Promise 的结果
 
 We've seen how to create a Promise, but how do you actually get the result of the asynchronous operation? To do this, you call `then` on the Promise object itself. `then` takes a callback function as its argument. When the Promise is fulfilled, the callback is executed with the result.
+我们已经看到了如何创建一个 Promise，但你如何实际获取异步操作的结果呢？为此，你需要在 Promise 对象本身上调用 `then`。`then` 接受一个回调函数作为其参数。当 Promise 实现时，会执行带有结果的回调函数。
 
 Let's see an example of this in action. Imagine a function called `getUsers` that asynchronously loads a list of user objects and returns a Promise. You can get the list of users by calling `then` on the Promise returned by `getUsers`.
+让我们看一个这样的例子。想象一个名为 `getUsers` 的函数，它异步加载用户对象列表并返回一个 Promise。你可以通过在 `getUsers` 返回的 Promise 上调用 `then` 来获取用户列表。
 
 ```javascript
 getUsers()
@@ -226,8 +242,10 @@ getUsers()
 ```
 
 Calling `then` on a Promise
+在 Promise 上调用 `then`
 
 Just like with events or callback based APIs, your code will continue executing without waiting for the result. Some time later, when the users have been loaded, your callback is scheduled for execution.
+就像处理事件或基于回调的 API 一样，你的代码将继续执行而不是等待结果。稍后，当用户数据加载完毕时，你的回调函数将被安排执行。
 
 ```javascript
 console.log('Loading users');
@@ -239,12 +257,16 @@ console.log('Continuing on');
 ```
 
 In the above example, "Loading users" will be printed first. The next thing that is printed will be "Continuing on", because the `getUsers` call is still loading the users. Later, you'll see "Got users" printed.
+在上面的例子中，首先将打印“正在加载用户”。因为 `getUsers` 调用仍在加载用户，所以接下来打印的将是“继续进行”。稍后，你将看到打印出“已获取用户”。
 
 ## How to Handle Errors with `then`
+## 如何使用 `then` 处理错误
 
 We've seen how to use `then` to get the result provided to the Promise, but what about errors? What happens if we fail to load the user list?
+我们已经看到了如何使用 `then` 来获取承诺提供的结果，但如果有错误怎么办？如果我们加载用户列表失败会发生什么？
 
 The `then` function actually takes a second argument, another callback. This is the error handler. If the Promise is rejected, this callback is executed with the rejection value.
+`then` 函数实际上接受第二个参数，另一个回调。这是错误处理器（error handler）。如果 Promise 被拒绝，这个回调将会用拒绝值执行。
 
 ```javascript
 getUsers()
@@ -256,14 +278,19 @@ getUsers()
 ```
 
 Since a Promise can only ever be either fulfilled or rejected, but not both, only one of these callback functions will be executed.
+由于一个 Promise 只能被实现（fulfilled）或被拒绝（rejected），而不能同时是两者，所以只有其中一个回调函数会被执行。
 
 It's important to always handle errors when working with Promises. If you have a Promise rejection that isn't handled by an error callback, you'll get an exception in your console about an unhandled rejection, which can cause issues for your users at runtime.
+在使用 Promise 时，始终处理错误总是非常重要。如果你有一个 Promise 拒绝没有通过错误回调处理，你的控制台会出现一个未处理的拒绝异常，这可能会在运行时为你的用户造成问题。
 
 ## Promise Chaining
+## Promise 链接
 
 What if you need to work with multiple Promises in series? Consider the earlier example where we loaded some data from a file, did some processing, and wrote the result to a new file. Suppose the `readFile`, `processData`, and `writeFile` functions used Promises instead of callbacks.
+如果你需要连续处理多个 Promise 怎么办？考虑之前的例子，我们从一个文件加载了一些数据，进行了一些处理，然后将结果写入一个新文件。假设 `readFile`，`processData` 和 `writeFile` 函数使用 Promise 而不是回调。
 
 You might try something like this:
+你可能会尝试像这样做：
 
 ```javascript
 readFile('sourceData.json')
@@ -279,12 +306,16 @@ readFile('sourceData.json')
 ```
 
 Nested promises
+Promise 的嵌套
 
 This doesn't look great, and we still have the nesting issue that we had with the callback approach. Thankfully, there is a better way. You can chain Promises together in a flat sequence.
+这看起来并不理想，我们仍然面临着我们在回调方法中遇到的嵌套问题。幸运的是，有一个更好的方法。你可以将 promise 以平面序列方式链接起来。
 
 To see how this works, let's look deeper at how `then` works. The key idea is this: the `then` method returns _another Promise_. Whatever value you return from your `then` callback becomes the fulfilled value of this new Promise.
+为了理解这是如何工作的，让我们更深入地看看 `then` 是如何工作的。关键思想是：`then` 方法返回 _另一个promise_。你从 `then` 回调中返回的任何值都会成为这个新承诺的实现值。
 
 Consider a `getUsers` function that returns a Promise that gets fulfilled with an array of user objects. Suppose we call `then` on this Promise, and in the callback, return the first user in the array (`users[0]`):
+考虑一个返回承诺的 `getUsers` 函数，该 promise 实现时带有用户对象数组。假设我们在这个 promise 上调用 `then`，并在回调中返回数组中的第一个用户（`users[0]`）：
 
 ```javascript
 getUsers().then(users => users[0]);
@@ -763,11 +794,11 @@ Learn to code for free. freeCodeCamp's open source curriculum has helped more th
 [1]: /news/tag/javascript/
 [2]: /news/author/joeattardi/
 [3]: #Promise是什么
-[4]: #comparing-promises-to-other-async-patterns
-[5]: #how-to-create-a-promise
-[6]: #how-to-get-the-result-of-a-promise
-[7]: #how-to-handle-errors-with-then
-[8]: #promise-chaining
+[4]: #Promises-与其他异步模式的比较
+[5]: #如何创建一个-Promiose
+[6]: #如何获取-Promise-的结果
+[7]: #如何使用then处理错误
+[8]: #Promise-链接
 [9]: #how-to-create-immediately-fulfilled-or-rejected-promises
 [10]: #how-to-use-async-and-await
 [11]: #promise-anti-patterns
