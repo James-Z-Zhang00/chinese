@@ -312,7 +312,7 @@ This doesn't look great, and we still have the nesting issue that we had with th
 这看起来并不理想，我们仍然面临着我们在回调方法中遇到的嵌套问题。幸运的是，有一个更好的方法。你可以将 promise 以平面序列方式链接起来。
 
 To see how this works, let's look deeper at how `then` works. The key idea is this: the `then` method returns _another Promise_. Whatever value you return from your `then` callback becomes the fulfilled value of this new Promise.
-为了理解这是如何工作的，让我们更深入地看看 `then` 是如何工作的。关键思想是：`then` 方法返回 _另一个promise_。你从 `then` 回调中返回的任何值都会成为这个新承诺的实现值。
+为了理解这是如何工作的，让我们更深入地看看 `then` 是如何工作的。关键思想是：`then` 方法返回 _另一个 promise_。你从 `then` 回调中返回的任何值都会成为这个新承诺的实现值。
 
 Consider a `getUsers` function that returns a Promise that gets fulfilled with an array of user objects. Suppose we call `then` on this Promise, and in the callback, return the first user in the array (`users[0]`):
 考虑一个返回承诺的 `getUsers` 函数，该 promise 实现时带有用户对象数组。假设我们在这个 promise 上调用 `then`，并在回调中返回数组中的第一个用户（`users[0]`）：
