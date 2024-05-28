@@ -797,7 +797,7 @@ Learn to code for free. freeCodeCamp's open source curriculum has helped more th
 [4]: #Promises-与其他异步模式的比较
 [5]: #如何创建一个-Promiose
 [6]: #如何获取-Promise-的结果
-[7]: #如何使用then处理错误
+[7]: #如何使用-then-处理错误
 [8]: #Promise-链接
 [9]: #how-to-create-immediately-fulfilled-or-rejected-promises
 [10]: #how-to-use-async-and-await
