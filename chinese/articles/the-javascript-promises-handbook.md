@@ -322,6 +322,7 @@ getUsers().then(users => users[0]);
 ```
 
 This whole expression, then, results in a new Promise that will be fulfilled with the first user object!
+这个整个表达式会产生一个新的 Promise ，这个 Promise 将会被第一个用户对象实现！
 
 ```javascript
 getUsers()
@@ -343,6 +344,7 @@ readFile('sourceData.json')
 ```
 
 Returning another Promise from `then`
+从 `then` 返回另一个 Promise
 
 The `then` handler calls `processData`, returning the resulting Promise. As before, this returns a new Promise. In this case, the new Promise will become fulfilled when the Promise returned by `processData` is fulfilled, giving you the same value. So the code in the above example would return a Promise that will be fulfilled with the processed data.
 
