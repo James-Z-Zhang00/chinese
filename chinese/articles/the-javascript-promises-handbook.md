@@ -333,10 +333,13 @@ getUsers()
 ```
 
 Returning a value from the `then` handler
+从 `then` 处理程序返回一个值
 
 This process of returning a Promise, calling `then`, and returning another value, resulting in another Promise, is called chaining.
+这种返回一个 Promise、调用 `then` 并返回另一个值，从而产生另一个 Promise 的过程，称为链式调用。
 
 Let's extend this idea. What if, instead of returning a value from the `then` handler, we returned another Promise? Consider again the file-processing example, where `readFile` and `processData` are both asynchronous functions that return Promises:
+让我们扩展这个想法。如果我们不从 `then` 处理程序返回一个值，而是返回另一个 Promise 会怎样？再次考虑文件处理的例子，其中 `readFile` 和 `processData` 都是返回 Promise 的异步函数：
 
 ```javascript
 readFile('sourceData.json')
@@ -347,8 +350,10 @@ Returning another Promise from `then`
 从 `then` 返回另一个 Promise
 
 The `then` handler calls `processData`, returning the resulting Promise. As before, this returns a new Promise. In this case, the new Promise will become fulfilled when the Promise returned by `processData` is fulfilled, giving you the same value. So the code in the above example would return a Promise that will be fulfilled with the processed data.
+`then` 处理程序调用 `processData`，返回结果 Promise。同样，这将返回一个新的 Promise。在这种情况下，当 `processData` 返回的 Promise 被完成时，新的 Promise 也将被完成，并且会给你相同的值。因此，上述示例中的代码将返回一个 Promise，该 Promise 将以处理后的数据来完成。
 
 You can chain multiple Promises, one after the other, until you get to the final value you need:
+你可以一个接一个地链式调用多个 Promises，直到你得到所需的最终值：
 
 ```javascript
 readFile('sourceData.json')
@@ -358,12 +363,16 @@ readFile('sourceData.json')
 ```
 
 Chaining multiple promises
+链式调用多个 Promises
 
 In the above example, the whole expression will result in a Promise that won't be fulfilled until after the processed data is written to a file. "Done processing!" will be printed to the console, and then the final Promise will become fulfilled.
+在上述示例中，整个表达式将返回一个 Promise，该 Promise 在处理后的数据写入文件后才会被完成。“Done processing!（处理完成）” 会打印到控制台，然后最终的 Promise 将被完成。
 
 ### Error handling in Promise chains
+### 链式 Promise 的错误处理
 
 In our file-processing example, an error can occur at any stage in the process. You can handle an error from any step in the Promise chain by using the Promise's `catch` method.
+在我们的文件处理示例中，过程中的任何阶段都可能发生错误。你可以使用 Promise 的 `catch` 方法来处理 Promise 链中任何步骤的错误。
 
 ```javascript
 readFile('sourceData.json')
@@ -374,12 +383,16 @@ readFile('sourceData.json')
 ```
 
 Handling errors with `catch`
+使用 `catch` 处理错误
 
 If one of the Promises in the chain is rejected, the callback function passed to `catch` will execute and the rest of the chain is skipped.
+如果链中的某个 Promise 被拒绝，传递给 `catch` 的回调函数将会执行，并且链中的其余部分将被跳过。
 
 ### How to use `finally`
+### 如何使用 `finally`
 
 You might have some code you want to execute regardless of the Promise result. For example, maybe you want to close a database or a file.
+你可能有一些代码希望无论 Promise 的结果如何都要执行。例如，你可能想要关闭一个数据库或文件。为此，你可以使用 finally 方法。
 
 ```javascript
 openDatabase()
@@ -389,12 +402,16 @@ openDatabase()
 ```
 
 ### How to use `Promise.all`
+### 如何使用 `Promise.all`
 
 Promise chains let you run multiple tasks in sequence, but what if you want to run multiple tasks at the same time, and wait until they all complete? The `Promise.all` method lets you do just that.
+Promise 链可以让你按顺序运行多个任务，但如果你想同时运行多个任务，并等待它们全部完成呢？`Promise.all` 方法可以让你做到这一点。
 
 `Promise.all` takes an array of Promises, and returns a new Promise. This Promise will be fulfilled once all of the other Promises are fulfilled. The fulfillment value is an array containing the fulfillment values of each Promise in the input array.
+`Promise.all` 接受一个 Promise 数组，并返回一个新的 Promise。一旦所有其他 Promise 都完成，该 Promise 就会完成。完成值是一个数组，包含输入数组中每个 Promise 的完成值。
 
 Suppose you have a function `loadUserProfile` that loads a user's profile data, and  another function `loadUserPosts` that loads a user's posts. They both take a user ID as the argument. There's a third function, `renderUserPage`, that needs both the profile and list of posts.
+假设你有一个函数 `loadUserProfile` 用于加载用户的个人资料数据，另一个函数 `loadUserPosts` 用于加载用户的帖子。它们都以用户 ID 作为参数。还有第三个函数 `renderUserPage` 需要同时获取用户的个人资料和帖子列表。
 
 ```javascript
 const userId = 100;
@@ -410,18 +427,25 @@ Promise.all([profilePromise, postsPromise])
 ```
 
 Waiting for multiple promises with `Promise.all`
+用 `Promise.all` 来等待多个 Promise
 
 What about errors? If any of the Promises passed to `Promise.all` is rejected with an error, the resulting Promise is also rejected with that error. If any of the other Promises are fulfilled, those values are lost.
+如果出现错误怎么办呢？如果传递给 `Promise.all` 的任何一个 Promise 因错误而被拒绝，结果 Promise 也将被该错误拒绝。如果其他任何 Promise 被解决，那些值将会丢失。
 
 ### How to use `Promise.allSettled`
+### 如何使用 `Promise.allSettled`
 
 The `Promise.allSettled` method works similarly to `Promise.all`. The main difference is that the Promise returned by `Promise.allSettled` will never be rejected.
+`Promise.allSettled` 方法的工作方式类似于 `Promise.all`。主要区别在于 `Promise.allSettled` 返回的 Promise 永远不会被拒绝。
 
 Instead, it is fulfilled with an array of objects, whose order corresponds to the order of the Promises in the input array. Each object has a `status` property which is either "fulfilled" or "rejected", depending on the result.
+相反，它会以一个对象数组来完成，这些对象的顺序对应于输入数组中的 Promise 的顺序。每个对象都有一个 `status` 属性，该属性根据结果分别为 "fulfilled（实现）" 或 "rejected（拒绝）"。
 
 If `status` is "fulfilled", the object will also have a `value` property indicating the Promise's fulfillment value. If `status` is "rejected", the object will instead have a `reason` property which is the error or other object the Promise was rejected with.
+如果 `status` 是 "fulfilled"，该对象还会有一个 `value` 属性，表示 Promise 的完成值。如果 `status` 是 "rejected"，对象将有一个 `reason` 属性，用来表示 Promise 的错误值或其他对象的错误值。
 
 Consider again a `getUser` function that takes a user ID and returns a Promise that is fulfilled with the user having that ID. You can use `Promise.allSettled` to load these in parallel, making sure to get all users that were loaded successfully.
+再看一个 `getUser` 函数，该函数接受一个用户 ID 并返回一个 Promise，该 Promise 将会被具有该 ID 的用户实现。你可以使用 `Promise.allSettled` 并行加载这些用户，确保获取到所有成功加载的用户。
 
 ```javascript
 Promise.allSettled([
