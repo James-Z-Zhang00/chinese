@@ -461,8 +461,10 @@ Promise.allSettled([
 ```
 
 Attempting to load three users, and showing the ones that were successfully loaded
+尝试加载三个用户，并显示成功加载的用户
 
 You can make a general purpose `loadUsers` function that loads users, in parallel, given an array of user IDs. The function returns a Promise that is fulfilled with an array of all users that were successfully loaded.
+你可以创建一个通用的 `loadUsers` 函数，该函数接收一个用户ID数组，并且并行加载用户。该函数返回一个 Promise，当用户数组成功加载时，该 Promise 会被实现。
 
 ```javascript
 function getUsers(userIds) {
@@ -476,8 +478,10 @@ function getUsers(userIds) {
 ```
 
 A helper function to load multiple users in parallel, filtering out any requests that failed.
+一个辅助函数，用于并行加载多个用户，过滤掉任何失败的请求。
 
 Then, you can just call `getUsers` with an array of user IDs:
+然后，你只需使用一个用户ID数组调用 `getUsers`：
 
 ```javascript
 getUsers([1, 2, 3])
@@ -485,12 +489,16 @@ getUsers([1, 2, 3])
 ```
 
 Using the `getUsers` helper function
+使用 `getUsers` 辅助函数
 
 ## How to Create Immediately Fulfilled or Rejected Promises
+## 如何创建立即实现或拒绝的 Promise
 
 Sometimes, you may want to wrap a value in a fulfilled Promise. For example, maybe you have an asynchronous function that returns a Promise, but there is a base case where you know the value ahead of time and you don't need to do any asynchronous work.
+有时，你可能希望将一个值包装在一个已解决的 Promise 中。例如，你有一个返回 Promise 的异步函数，并且你提前知道值，不需要进行任何异步工作。
 
 To do this, you can call `Promise.resolve` with a value. This returns a Promise that is immediately fulfilled with the value you specified:
+可以调用 `Promise.resolve`并且指定一个值，这将返回一个立即实现的 Promise，并带有你指定的值：
 
 ```javascript
 Promise.resolve('hello')
@@ -500,8 +508,10 @@ Promise.resolve('hello')
 ```
 
 Using `Promise.resolve`
+使用 `Promise.resolve`
 
 This is more or less equivalent to the following:
+这相当于以下内容：
 
 ```javascript
 new Promise(resolve => {
@@ -512,8 +522,10 @@ new Promise(resolve => {
 ```
 
 To make your API more consistent, you can create an immediately fulfilled Promise and return that in such cases. This way, the code that calls your function knows to always expect a Promise, no matter what.
+为了使你的 API 更加一致，你可以创建一个立即解决的 Promise 并在这种情况下返回。这样，调用你函数的代码就知道无论如何总是会得到一个 Promise。
 
 For example, consider the `getUsers` function defined earlier. If the array of user IDs is empty, you could simply return an empty array because no users will be loaded.
+例如，考虑之前定义的 `getUsers` 函数。如果用户 ID 数组为空，你可以简单地返回一个空数组，因为不会加载任何用户。
 
 ```javascript
 function getUsers(userIds) {
@@ -532,12 +544,16 @@ function getUsers(userIds) {
 ```
 
 Adding an early return to the `getUsers` helper function
+在 `getUsers` 辅助函数中添加一个提前返回
 
 Another use for `Promise.resolve` is to handle the case where you are given a value that may or may not be a Promise, but you want to always treat it as a Promise.
+`Promise.resolve` 的另一个用途是处理你可能获得一个值，该值可能是也可能不是一个 Promise，但你想总是将它视为一个 Promise。
 
 You can safely call `Promise.resolve` on any value. If it was already a Promise, you'll just get another Promise that will have the same fulfillment or rejection value. If it was not a Promise, it will be wrapped in an immediately fulfilled Promise.
+你可以安全地对任何值调用 `Promise.resolve`。如果它已经是一个 Promise，你将得到另一个具有相同解决或拒绝值的 Promise。如果它不是一个 Promise，它将被包装在一个立即解决的 Promise 中。
 
 The benefit of this approach is you don't have to do something like this:
+这种方法的好处是你不必做这样的事情：
 
 ```javascript
 function getResult(result) {
@@ -552,8 +568,10 @@ function getResult(result) {
 ```
 
 Conditionally calling `then` based on whether or not something is a Promise
+根据是否是 Promise 有条件地调用 `then`
 
 Similarly, you can create an immediately rejected Promise with `Promise.reject`. Returning once again to the `getUsers` function, maybe we want to immediately reject if the user ID array is `null`, `undefined`, or not an array.
+同样，你可以使用 `Promise.reject` 创建一个立即拒绝的 Promise。再回到 `getUsers` 函数，如果用户 ID 数组是 `null`、`undefined` 或不是数组，我们可能希望立即拒绝。
 
 ```javascript
 function getUsers(userIds) {
@@ -576,24 +594,34 @@ function getUsers(userIds) {
 ```
 
 Returning an error if the argument is not a valid array
+如果参数不是有效数组则返回错误
 
 ### How to use `Promise.race`
+### 如何使用 `Promise.race`
 
 Just like `Promise.all` or `Promise.allSettled`, the `Promise.race` static method takes an array of Promises, and returns a new Promise. As the name implies, though, it works somewhat differently.
+就像 `Promise.all` 或 `Promise.allSettled` 一样，`Promise.race` 静态方法接收一个 Promise 数组，并返回一个新的 Promise。然而，顾名思义，它的工作方式有些不同。
 
 The Promise returned by `Promise.race` will wait until the first of the given Promises is fulfilled or rejected, and then that Promise will also be fulfilled or rejected, with the same value. When this happens, the fulfilled or rejected values of the other Promises are lost.
+`Promise.race` 返回的 Promise 会等待给定的 Promise 中第一个被解决或被拒绝的 Promise，然后该 Promise 也会以相同的值被解决或被拒绝。当这种情况发生时，其他 Promise 的解决或拒绝值将会丢失。
 
 ### How to use `Promise.any`
+### 如何使用 `Promise.any`
 
 `Promise.any` works similarly to `Promise.race` with one key difference – where `Promise.race` will be done as soon as any Promise is fulfilled or rejected, `Promise.any` waits for the first _fulfilled_ Promise.
+`Promise.any` 的工作方式与 `Promise.race` 类似，但有一个关键区别 —— `Promise.race` 会在任何一个 Promise 被解决或被拒绝时完成，而 `Promise.any` 会等待第一个 _解决的_ Promise。
 
 ## How to Use `async` and `await`
+## 如何使用 `async` 和 `await`
 
 `async` and `await` are special keywords that simplify working with Promises. They remove the need for callback functions and calls to `then` or `catch`. They work with try-catch blocks, as well.
+`async` 和 `await` 是简化处理 Promise 的特殊关键字。它们消除了对回调函数和调用 `then` 或 `catch` 的需求。它们也可以与 try-catch 代码块一起使用。
 
 Here's how it works. Instead of calling `then` on a Promise, you `await` it by putting the `await` keyword before it. This effectively "pauses" execution of the function until the Promise is fulfilled.
+它们的工作原理如下。你无需在 Promise 上调用 `then`，而是通过在它前面加上 `await` 关键词来“等待”它。这实际上会“暂停”函数的执行，直到 Promise 被解决。
 
 Here's an example using standard Promises:
+以下是一个使用标准 Promise 的例子：
 
 ```javascript
 getUsers().then(users => {
@@ -602,8 +630,10 @@ getUsers().then(users => {
 ```
 
 Awaiting a promise with `then`
+使用 `then` 等待一个 promise
 
 Here's the equivalent code using the `await` keyword:
+以下是使用 `await` 关键字的等效代码：
 
 ```javascript
 const users = await getUsers();
@@ -611,8 +641,10 @@ console.log('Got users:', users);
 ```
 
 Awaiting a promise with `await`
+使用 `await` 等待一个 promise
 
 Promise chains are a little cleaner, too:
+Promise 链也更加简洁：
 
 ```javascript
 const data = await readFile('sourceData.json');
@@ -621,8 +653,11 @@ await writeFile(result, 'processedData.json');
 ```
 
 Chaining promises with `await`
+使用 `await` 链接 promise
 
 Remember that each usage of `await` will pause execution of the rest of the function until the Promise you are awaiting becomes fulfilled. If you want to await several Promises that run in parallel, you can use `Promise.all`:
+记住，每次使用 `await` 都会暂停函数的其余部分的执行，直到你等待的 Promise 被解决。如果你想等待多个并行运行的 Promise，你可以使用 `Promise.all`：
+
 
 ```javascript
 const users = await Promise.all([getUser(1), getUser(2), getUser(3)]);
@@ -630,7 +665,10 @@ const users = await Promise.all([getUser(1), getUser(2), getUser(3)]);
 
 Using Promise.all with `await`
 
+使用 `await` 的 Promise.all
+
 To use the `await` keyword, your function must be marked as an async function. You can do this by placing the `async` keyword before your function:
+要使用 `await` 关键字，你的函数必须标记为异步函数。你可以在函数前面加上 `async` 关键字来实现这一点：
 
 ```javascript
 async function processData(sourceFile, outputFile) {
@@ -641,8 +679,10 @@ async function processData(sourceFile, outputFile) {
 ```
 
 Marking a function as `async`
+标记函数为 `async`
 
 Adding the `async` keyword also has another important effect on the function. Async functions always implicitly return a Promise. If you return a value from an async function, the function will actually return a Promise that is fulfilled with that value.
+添加 `async` 关键字还对函数产生了另一个重要影响。异步函数始终会隐式返回一个 Promise。如果你从异步函数中返回一个值，该函数实际上会返回一个以该值解决的 Promise。
 
 ```javascript
 async function add(a, b) {
@@ -655,12 +695,16 @@ add(2, 3).then(sum => {
 ```
 
 An `async` function to add two numbers
+一个 `async` 函数用于求两个数字的和
 
 In the above example, the function is returning the sum of the two arguments `a` and `b`. But since it's an `async` function, it doesn't return the sum but rather a Promise that is fulfilled with the sum.
+在上面的例子中，该函数返回两个参数 `a` 和 `b` 的和。但由于它是一个 `async` 函数，它不会直接返回和，而是返回一个以和解决的 Promise。
 
 ### Error handling with `async` and `await`
+### 使用 `async` 和 `await` 进行错误处理
 
 We use `await` to wait for Promise to be fulfilled, but what about handling errors? If you are awaiting a Promise, and it is rejected, an error will be thrown. This means to handle the error, you can put it in a try-catch block:
+我们使用 `await` 来等待 Promise 被解决，但是如何处理错误呢？如果你等待一个 Promise，并且它被拒绝了，那么就会抛出一个错误。这意味着要处理错误，你可以将其放在一个 try-catch 块中：
 
 ```javascript
 try {
@@ -673,12 +717,16 @@ try {
 ```
 
 Error handling with a try-catch block
+使用 try-catch 块进行错误处理
 
 ## Promise Anti-Patterns
+## Promise 反模式
 
 ### Unnecessarily creating a new Promise
+### 不必要地创建新的 Promise
 
 Sometimes there's no getting around creating a new Promise. But if you are already working with Promises returned by an API, you usually shouldn't need to create your own Promise:
+有时候无法避免创建新的Promise。但是，如果你已经使用API返回的Promise在工作，通常不需要创建自己的Promise：
 
 ```javascript
 function getUsers() {
@@ -691,8 +739,10 @@ function getUsers() {
 ```
 
 An example of unnecessary Promise creation
+不必要创建Promise的例子
 
 In this example, we're creating a new Promise to wrap the Fetch API, which already returns Promises. This is unnecessary. Instead, just return the Promise chain from the Fetch API directly:
+在这个例子中，我们创建一个新的Promise来包装Fetch API，而Fetch API已经返回Promise。这是不必要的。相反，直接返回Fetch API的Promise链：
 
 ```javascript
 function getUsers() {
@@ -702,8 +752,10 @@ function getUsers() {
 ```
 
 Using the existing Fetch promise
+使用现有的Fetch promise
 
 In both cases, the code calling `getUsers` looks the same:
+在这两种情况下，调用 `getUsers` 的代码看起来都是相同的：
 
 ```javascript
 getUsers()
@@ -713,10 +765,13 @@ getUsers()
 ```
 
 Client code for either version of the `getUsers` function
+客户端代码适用于 `getUsers` 函数的任何版本
 
 ### Swallowing errors
+### 吞噬错误
 
 Consider this version of a `getUsers` function:
+考虑这个版本的 `getUsers` 函数：
 
 ```javascript
 function getUsers() {
@@ -727,8 +782,10 @@ function getUsers() {
 ```
 
 Swallowing the fetch error
+吞噬Fetch错误
 
 Error handling is good, right? You might be surprised by the result if we call this `getUsers` function:
+错误处理很好，对吧？如果我们调用这个 `getUsers` 函数，你可能会对结果感到惊讶：
 
 ```javascript
 getUsers()
@@ -737,10 +794,13 @@ getUsers()
 ```
 
 Calling `getUsers`
+调用 `getUsers`
 
 You might expect this to print "error", but it will actually print "Got users: undefined". This is because the `catch` call "swallows" the error and returns a new Promise that is fulfilled with the return value of the `catch` callback, which is `undefined` (`console.error` returns `undefined`). You'll still see the "Error loading users" log message from `getUsers`, but the returned Promise will be fulfilled, not rejected.
+你可能期望这会打印出 "error"，但实际上它会打印出 "Got users: undefined"。这是因为 `catch` 调用"吞噬"了错误，并返回一个新的 Promise，该 Promise 是通过 `catch` 回调的返回值进行解决的，而这个返回值是 `undefined`（`console.error` 返回 `undefined`）。你仍然会看到来自 `getUsers` 的 "Error loading users" 日志消息，但返回的 Promise 将会被解决，而不是被拒绝。
 
 If you want to catch the error inside the `getUsers` function and still reject the returned Promise, the `catch` handler needs to return a rejected Promise. You can do this by using `Promise.reject`.
+如果你想在 `getUsers` 函数内部捕获错误并且仍然拒绝返回的 Promise，`catch` 处理程序需要返回一个被拒绝的 Promise。你可以通过使用 `Promise.reject` 来实现这一点。
 
 ```javascript
 function getUsers() {
@@ -754,14 +814,19 @@ function getUsers() {
 ```
 
 Returning a rejected Promise after handling the error
+在处理错误后返回一个被拒绝的 Promise
 
 Now you'll still get the "Error loading users" message, but the returned Promise will also be rejected with the error.
+现在你仍然会得到 "Error loading users" 的消息，但返回的 Promise 也会因错误而被拒绝。
 
 ### Nesting Promises
+### 嵌套的 Promise
 
 Avoid nesting Promise code. Instead, try to use flattened Promise chains.
+避免嵌套的 Promise 代码。相反，尝试使用扁平化的 Promise 链。
 
 Instead of this:
+而不是这样：
 
 ```javascript
 readFile(sourceFile)
@@ -775,6 +840,7 @@ readFile(sourceFile)
 ```
 
 Do this:
+这样做：
 
 ```javascript
 readFile(sourceFile)
@@ -784,8 +850,10 @@ readFile(sourceFile)
 ```
 
 ## Summary
+## 总结
 
 Here are the key points for working with Promises:
+以下是处理 Promise 的关键要点：
 
 -   A Promise can be pending, fulfilled, or rejected
 -   A Promise is settled if it is either fulfilled or rejected
@@ -801,21 +869,40 @@ Here are the key points for working with Promises:
 -   Use a try-catch block to handle errors when using the `await` keyword
 -   A function that uses `await` inside of it must use the `async` keyword
 
+-   Promise 可以是 pending（待定）、fulfilled（已解决）或 rejected（已拒绝）
+-   如果一个 Promise 被解决（即变为 fulfilled 或 rejected），则它被称为 settled（已解决）
+-   使用 `then` 来获取 Promise 的解决值
+-   使用 `catch` 来处理错误
+-   使用 `finally` 来执行在成功或错误情况下都需要的清理逻辑
+-   链接 Promise 以按顺序执行异步任务
+-   使用 `Promise.all` 来获得一个 Promise，当所有给定的 Promise 都解决时它也解决，或当其中一个 Promise 被拒绝时它拒绝
+-   使用 `Promise.allSettled` 来获得一个 Promise，当所有给定的 Promise 都解决或被拒绝时它解决
+-   使用 `Promise.race` 来获得一个 Promise，当给定的 Promise 中第一个被解决或被拒绝时它也被解决或被拒绝
+-   使用 `Promise.any` 来获得一个 Promise，当给定的 Promise 中第一个被解决时它解决
+-   使用 `await` 关键字来等待一个 Promise 的解决值
+-   使用 try-catch 块来处理使用 `await` 关键字时的错误
+-   使用 `await` 的函数必须使用 `async` 关键字
+
 Thank you for reading this deep dive on Promises. I hope you learned something new!
+感谢阅读这篇关于 Promise 的深入探讨。希望你学到了新知识！
 
 ---
 
 ![Joe Attardi](https://www.freecodecamp.org/news/content/images/size/w60/2023/10/5.png)
 
-[Joe Attardi][13]
+[乔·阿塔迪（Joe Attardi）][13]
 
 Read [more posts][14].
+
+阅读[更多帖子][14]。
 
 ---
 
 If you read this far, thank the author to show them you care. Say Thanks
+如果你读到这里，请感谢作者，向他们表达你的关心。说声谢谢
 
 Learn to code for free. freeCodeCamp's open source curriculum has helped more than 40,000 people get jobs as developers. [Get started][15]
+免费学习编程。freeCodeCamp 的开源课程已经帮助了超过 40,000 人找到了开发人员的工作。[开始学习][15]
 
 [1]: /news/tag/javascript/
 [2]: /news/author/joeattardi/
@@ -825,10 +912,10 @@ Learn to code for free. freeCodeCamp's open source curriculum has helped more th
 [6]: #如何获取-Promise-的结果
 [7]: #如何使用-then-处理错误
 [8]: #Promise-链接
-[9]: #how-to-create-immediately-fulfilled-or-rejected-promises
-[10]: #how-to-use-async-and-await
-[11]: #promise-anti-patterns
-[12]: #summary
+[9]: #如何创建立即实现或拒绝的-Promise
+[10]: #如何使用-async-和-await
+[11]: #Promise-反模式
+[12]: #总结
 [13]: /news/author/joeattardi/
 [14]: /news/author/joeattardi/
 [15]: https://www.freecodecamp.org/learn/
