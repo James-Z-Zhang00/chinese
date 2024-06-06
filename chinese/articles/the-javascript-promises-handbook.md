@@ -464,7 +464,7 @@ Attempting to load three users, and showing the ones that were successfully load
 尝试加载三个用户，并显示成功加载的用户
 
 You can make a general purpose `loadUsers` function that loads users, in parallel, given an array of user IDs. The function returns a Promise that is fulfilled with an array of all users that were successfully loaded.
-你可以创建一个通用的 `loadUsers` 函数，该函数接收一个用户ID数组，并且并行加载用户。该函数返回一个 Promise，当用户数组成功加载时，该 Promise 会被实现。
+你可以创建一个通用的 `loadUsers` 函数，该函数接收一个用户 ID 数组，并且并行加载用户。该函数返回一个 Promise，当用户数组成功加载时，该 Promise 会被实现。
 
 ```javascript
 function getUsers(userIds) {
@@ -481,7 +481,7 @@ A helper function to load multiple users in parallel, filtering out any requests
 一个辅助函数，用于并行加载多个用户，过滤掉任何失败的请求。
 
 Then, you can just call `getUsers` with an array of user IDs:
-然后，你只需使用一个用户ID数组调用 `getUsers`：
+然后，你只需使用一个用户 ID 数组调用 `getUsers`：
 
 ```javascript
 getUsers([1, 2, 3])
@@ -726,7 +726,7 @@ Error handling with a try-catch block
 ### 不必要地创建新的 Promise
 
 Sometimes there's no getting around creating a new Promise. But if you are already working with Promises returned by an API, you usually shouldn't need to create your own Promise:
-有时候无法避免创建新的Promise。但是，如果你已经使用API返回的Promise在工作，通常不需要创建自己的Promise：
+有时候无法避免创建新的 Promise。但是，如果你已经使用 API 返回的 Promise 在工作，通常不需要创建自己的 Promise：
 
 ```javascript
 function getUsers() {
@@ -739,10 +739,10 @@ function getUsers() {
 ```
 
 An example of unnecessary Promise creation
-不必要创建Promise的例子
+不必要创建 Promise 的例子
 
 In this example, we're creating a new Promise to wrap the Fetch API, which already returns Promises. This is unnecessary. Instead, just return the Promise chain from the Fetch API directly:
-在这个例子中，我们创建一个新的Promise来包装Fetch API，而Fetch API已经返回Promise。这是不必要的。相反，直接返回Fetch API的Promise链：
+在这个例子中，我们创建一个新的 Promise 来包装 Fetch API，而 Fetch API 已经返回 Promise。这是不必要的。相反，直接返回 Fetch API 的 Promise 链：
 
 ```javascript
 function getUsers() {
@@ -752,7 +752,7 @@ function getUsers() {
 ```
 
 Using the existing Fetch promise
-使用现有的Fetch promise
+使用现有的 Fetch promise
 
 In both cases, the code calling `getUsers` looks the same:
 在这两种情况下，调用 `getUsers` 的代码看起来都是相同的：
@@ -782,7 +782,7 @@ function getUsers() {
 ```
 
 Swallowing the fetch error
-吞噬Fetch错误
+吞噬 Fetch 错误
 
 Error handling is good, right? You might be surprised by the result if we call this `getUsers` function:
 错误处理很好，对吧？如果我们调用这个 `getUsers` 函数，你可能会对结果感到惊讶：
