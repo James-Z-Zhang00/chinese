@@ -133,8 +133,7 @@ readFile('sourceData.json', (error, data) => {
 
 事件是你可以监听并做出响应的东西。在 JavaScript 中，一些对象是事件的 _发射器（emitters）_，这意味着你可以在它们上注册事件监听器（event listener，用来监视软件的变化，比如用户点击了鼠标。）。
 
-In the DOM, many elements implement the `EventTarget` interface which provides `addEventListener` and `removeEventListener` methods.
-在 DOM 中，许多元素实现了 `EventTarget` 接口，它提供了 `addEventListener` 和 `removeEventListener` 方法。 ------(more accurate translation needed)
+在 DOM 中，许多元素运用里 `EventTarget` 接口，它提供了 `addEventListener` 和 `removeEventListener` 方法。
 
 一个给定类型的事件可以发生多次。例如，你可以监听按钮上的点击事件（click event）：
 
@@ -164,20 +163,16 @@ myImage.addEventListener('error', error => {
 
 监听图像的加载和错误事件
 
-Suppose the image already completed loading before you added the event listener. What do you think would happen? Nothing! One drawback of event-based APIs is that if you add an event listener after an event, your callback won't be executed. This makes sense, after all – you wouldn't want to receive all past click events when you add a click listener to a button.
-假设在你添加事件监听器之前，图像已经完成了加载。你认为会发生什么呢？什么也不会发生！基于事件的 API 的一个缺点是，如果你在事件发生后添加事件监听器，你的回调将不会被执行。这是有道理的——毕竟，当你向按钮添加点击监听器时，你不会想接收所有过去的点击事件。
+假设在你添加事件监听器之前，图像已经完成了加载。那就什么也不会发生！基于事件的 API 的一个缺点是，如果你在事件发生后添加事件监听器，你的回调将不会被执行。这是有道理的——毕竟，当你向按钮添加点击监听器时，你不会想接收所有过去的点击事件。
 
-Now that we've explored callbacks and events, let's take a closer look at Promises.
-现在我们已经探讨了回调和事件，让我们更仔细地看看 Promise。
+现在我们已经探讨了回调和事件，让我们看看 Promise。
 
 ## 如何创建 Promiose
-You can create a Promise using the `new` keyword with the `Promise` constructor. The `Promise` constructor takes a callback function that takes two arguments, called `resolve` and `reject`. Each of these arguments is a function provided by the Promise, which are used to transition the Promise to either the fulfilled or rejected state.
+
 你可以使用 `new` 关键字和 `Promise` 构造器来创建一个 `Promise`。`Promise` 构造器接受一个回调函数，该函数带有两个参数，称为 `resolve` 和 `reject`。这两个参数都是由 `Promise` 提供的函数，用于将 `Promise` 转换到已实现或已拒绝状态。
 
-Inside your callback, you perform your asynchronous work. If the task is successful, you call the `resolve` function with the final result. If there was an error, you call the `reject` function with the error.
-在你的回调中，你执行你的异步工作。如果任务成功，你用最终结果调用 `resolve` 函数。如果发生错误，你用错误调用 `reject` 函数。
+在你的回调中，执行你的异步工作。如果任务成功，你调用 `resolve` 函数并伴随最终结果。如果发生错误，你调用 `reject` 函数并伴随错误。
 
-Here's an example of creating a Promise that wraps the browser's `setTimeout` function:
 以下是一个创建 Promise 的示例，该示例包装了浏览器的 `setTimeout` 函数：
 
 ```javascript
@@ -188,24 +183,19 @@ function wait(duration) {
 }
 ```
 
-将 setTimeout 包装在 Promise 中 ------(more accurate translation needed)
+将 `setTimeout` 包装在 Promise 中
 
-The `resolve` function is passed as the first argument to `setTimeout`. After the time specified by `duration` has passed, the browser calls the `resolve` function which fulfills the Promise.
-`resolve` 函数作为第一个参数传递给 `setTimeout`。在由 `duration` 指定的时间过后，浏览器调用 `resolve` 函数，这会实现 Promise。
+`resolve` 函数作为第一个参数传递给 `setTimeout`。在由 `duration` 指定的时间过后，浏览器会调用 `resolve` 函数来实现 Promise。
 
-Note: In this example, the delay before the `resolve` function is called may be longer than the duration passed to the function. This is because `setTimeout` does not guarantee execution at the specified time.
-注意：在这个示例中，调用 `resolve` 函数之前的延迟可能比 duration 指定的时间要长。这是因为 `setTimeout` 并不保证在指定时间执行。------(more accurate translation needed)
+注意：在这个示例中，调用 `resolve` 函数之前的延迟可能比 duration 指定的时间要长。这是因为 `setTimeout` 并不能保证在指定时间内执行。
 
-It's important to note that often times, you won't actually need to construct your own Promise by hand. You will typically be working with Promises returned by other APIs.
-重要的是要注意，通常情况下，你实际上不需要手动构建自己的 Promise。你通常会使用其他 API 返回的 Promise。
+注意，在通常情况下，你只需要处理其他 API 返回的 Promise。而不需要手动构建自己的 Promise。
 
 ## 如何获取 Promise 的结果
 
-We've seen how to create a Promise, but how do you actually get the result of the asynchronous operation? To do this, you call `then` on the Promise object itself. `then` takes a callback function as its argument. When the Promise is fulfilled, the callback is executed with the result.
 我们已经看到了如何创建一个 Promise，但你如何实际获取异步操作的结果呢？为此，你需要在 Promise 对象本身上调用 `then`。`then` 接受一个回调函数作为其参数。当 Promise 实现时，会执行带有结果的回调函数。
 
-Let's see an example of this in action. Imagine a function called `getUsers` that asynchronously loads a list of user objects and returns a Promise. You can get the list of users by calling `then` on the Promise returned by `getUsers`.
-让我们看一个这样的例子。想象一个名为 `getUsers` 的函数，它异步加载用户对象列表并返回一个 Promise。你可以通过在 `getUsers` 返回的 Promise 上调用 `then` 来获取用户列表。
+让我们看一个这样的例子。一个名为 `getUsers` 的函数，它异步加载用户对象列表并返回一个 Promise。你可以通过在 `getUsers` 返回的 Promise 上调用 `then` 来获取用户列表。
 
 ```javascript
 getUsers()
@@ -216,7 +206,6 @@ getUsers()
 
 在 Promise 上调用 `then`
 
-Just like with events or callback based APIs, your code will continue executing without waiting for the result. Some time later, when the users have been loaded, your callback is scheduled for execution.
 就像处理事件或基于回调的 API 一样，你的代码将继续执行而不是等待结果。稍后，当用户数据加载完毕时，你的回调函数将被安排执行。
 
 ```javascript
@@ -228,17 +217,13 @@ getUsers()
 console.log('Continuing on');
 ```
 
-In the above example, "Loading users" will be printed first. The next thing that is printed will be "Continuing on", because the `getUsers` call is still loading the users. Later, you'll see "Got users" printed.
-在上面的例子中，首先将打印“正在加载用户”。因为 `getUsers` 调用仍在加载用户，所以接下来打印的将是“继续进行”。稍后，你将看到打印出“已获取用户”。
+在上面的例子中，首先会打印“Loading users（正在加载用户）”。因为 `getUsers` 调用仍在加载用户，所以接下来打印的将是“Continuing on（继续进行）”。稍后，你将看到打印出“Got users:（已获取用户）”。
 
-## How to Handle Errors with `then`
 ## 如何使用 `then` 处理错误
 
-We've seen how to use `then` to get the result provided to the Promise, but what about errors? What happens if we fail to load the user list?
-我们已经看到了如何使用 `then` 来获取承诺提供的结果，但如果有错误怎么办？如果我们加载用户列表失败会发生什么？
+我们已经看到了如何使用 `then` 来获取 Promise 提供的结果，但如果我们加载用户列表失败会发生什么？
 
-The `then` function actually takes a second argument, another callback. This is the error handler. If the Promise is rejected, this callback is executed with the rejection value.
-`then` 函数实际上接受第二个参数，另一个回调。这是错误处理器（error handler）。如果 Promise 被拒绝，这个回调将会用拒绝值执行。
+`then` 函数还有第二个参数，另一个回调。那就是错误处理器（error handler）。如果 Promise 被拒绝，这个回调将会用拒绝/错误值执行。
 
 ```javascript
 getUsers()
@@ -249,16 +234,13 @@ getUsers()
   });
 ```
 
-Since a Promise can only ever be either fulfilled or rejected, but not both, only one of these callback functions will be executed.
 由于一个 Promise 只能被实现（fulfilled）或被拒绝（rejected），而不能同时是两者，所以只有其中一个回调函数会被执行。
 
-It's important to always handle errors when working with Promises. If you have a Promise rejection that isn't handled by an error callback, you'll get an exception in your console about an unhandled rejection, which can cause issues for your users at runtime.
-在使用 Promise 时，始终处理错误总是非常重要。如果你有一个 Promise 拒绝没有通过错误回调处理，你的控制台会出现一个未处理的拒绝异常，这可能会在运行时为你的用户造成问题。
+如果你有一个 Promise 拒绝没有通过错误回调处理，你的控制台会出现一个未处理的拒绝异常，这会在运行时对用户造成问题。
 
 ## Promise 链式调用
 
-What if you need to work with multiple Promises in series? Consider the earlier example where we loaded some data from a file, did some processing, and wrote the result to a new file. Suppose the `readFile`, `processData`, and `writeFile` functions used Promises instead of callbacks.
-如果你需要连续处理多个 Promise 怎么办？考虑之前的例子，我们从一个文件加载了一些数据，进行了一些处理，然后将结果写入一个新文件。假设 `readFile`，`processData` 和 `writeFile` 函数使用 Promise 而不是回调。
+如果你需要连续处理多个 Promise 怎么办？我们从一个文件加载了一些数据，进行了一些处理，然后将结果写入一个新文件。假设 `readFile`，`processData` 和 `writeFile` 函数使用 Promise 而不是回调。
 
 像这样：
 
@@ -277,20 +259,16 @@ readFile('sourceData.json')
 
 Promise 的嵌套
 
-This doesn't look great, and we still have the nesting issue that we had with the callback approach. Thankfully, there is a better way. You can chain Promises together in a flat sequence.
 这看起来并不理想，我们仍然面临着我们在回调方法中遇到的嵌套问题。幸运的是，有一个更好的方法。你可以将 promise 以平面序列方式链接起来。
 
-To see how this works, let's look deeper at how `then` works. The key idea is this: the `then` method returns _another Promise_. Whatever value you return from your `then` callback becomes the fulfilled value of this new Promise.
-为了理解这是如何工作的，让我们更深入地看看 `then` 是如何工作的。关键思想是：`then` 方法返回 _另一个 promise_。你从 `then` 回调中返回的任何值都会成为这个新承诺的实现值。
+让我们更深入地看看 `then` 是如何工作的。关键思想是：用 `then` 方法返回 _另一个 promise_。你从 `then` 回调中返回的任何值都会成为这个新 promise 的实现值。
 
-Consider a `getUsers` function that returns a Promise that gets fulfilled with an array of user objects. Suppose we call `then` on this Promise, and in the callback, return the first user in the array (`users[0]`):
-考虑一个返回承诺的 `getUsers` 函数，该 promise 实现时带有用户对象数组。假设我们在这个 promise 上调用 `then`，并在回调中返回数组中的第一个用户（`users[0]`）：
+一个返回 promise 的 `getUsers` 函数，该 promise 实现时带有用户对象数组。假设我们在这个 promise 上调用 `then`，并在回调中返回数组中的第一个用户（`users[0]`）：
 
 ```javascript
 getUsers().then(users => users[0]);
 ```
 
-This whole expression, then, results in a new Promise that will be fulfilled with the first user object!
 这个整个表达式会产生一个新的 Promise ，这个 Promise 将会被第一个用户对象实现！
 
 ```javascript
@@ -303,11 +281,9 @@ getUsers()
 
 从 `then` 返回一个值
 
-This process of returning a Promise, calling `then`, and returning another value, resulting in another Promise, is called chaining.
-这种返回一个 Promise、调用 `then` 并返回另一个值，从而产生另一个 Promise 的过程，称为链式调用。
+这种返回一个 Promise，调用 `then` 并返回另一个值，从而产生另一个 Promise 的过程，称为链式调用。
 
-Let's extend this idea. What if, instead of returning a value from the `then` handler, we returned another Promise? Consider again the file-processing example, where `readFile` and `processData` are both asynchronous functions that return Promises:
-让我们扩展这个想法。如果我们不从 `then` 处理程序返回一个值，而是返回另一个 Promise 会怎样？再次考虑文件处理的例子，其中 `readFile` 和 `processData` 都是返回 Promise 的异步函数：
+让我们延伸这个想法。如果我们不从 `then` 处理程序返回一个值，而是返回另一个 Promise 会怎样？再次考虑文件处理的例子，其中 `readFile` 和 `processData` 都是返回 Promise 的异步函数：
 
 ```javascript
 readFile('sourceData.json')
@@ -316,10 +292,8 @@ readFile('sourceData.json')
 
 从 `then` 返回另一个 Promise
 
-The `then` handler calls `processData`, returning the resulting Promise. As before, this returns a new Promise. In this case, the new Promise will become fulfilled when the Promise returned by `processData` is fulfilled, giving you the same value. So the code in the above example would return a Promise that will be fulfilled with the processed data.
-`then` 处理程序调用 `processData`，返回结果 Promise。同样，这将返回一个新的 Promise。在这种情况下，当 `processData` 返回的 Promise 被完成时，新的 Promise 也将被完成，并且会给你相同的值。因此，上述示例中的代码将返回一个 Promise，该 Promise 将以处理后的数据来完成。
+`then` 处理程序调用 `processData`，返回结果 Promise。同样，这将返回一个新的 Promise。在这种情况下，当 `processData` 返回的 Promise 被实现时，新的 Promise 也将被实现，并且会给你相同的值。因此，上述示例中的代码将返回一个 Promise，该 Promise 将以处理后的数据来实现。
 
-You can chain multiple Promises, one after the other, until you get to the final value you need:
 你可以一个接一个地链式调用多个 Promises，直到你得到所需的最终值：
 
 ```javascript
@@ -331,13 +305,11 @@ readFile('sourceData.json')
 
 链式调用多个 Promises
 
-In the above example, the whole expression will result in a Promise that won't be fulfilled until after the processed data is written to a file. "Done processing!" will be printed to the console, and then the final Promise will become fulfilled.
-在上述示例中，整个表达式将返回一个 Promise，该 Promise 在处理后的数据写入文件后才会被完成。“Done processing!（处理完成）” 会打印到控制台，然后最终的 Promise 将被完成。
+在上述示例中，整个表达式将返回一个 Promise，该 Promise 在处理后的数据写入文件后才会被实现。控制台打印“Done processing!（处理完成）”，然后最终的 Promise 才会被实现。
 
 ### 链式调用 Promise 的错误处理
 
-In our file-processing example, an error can occur at any stage in the process. You can handle an error from any step in the Promise chain by using the Promise's `catch` method.
-在我们的文件处理示例中，过程中的任何阶段都可能发生错误。你可以使用 Promise 的 `catch` 方法来处理 Promise 链式调用中任何步骤的错误。
+在我们的文件处理示例中，过程中的任何阶段都可能发生错误。你可以使用 Promise 的 `catch` 方法来处理任何步骤中的错误。
 
 ```javascript
 readFile('sourceData.json')
@@ -364,13 +336,10 @@ openDatabase()
 
 ### 如何使用 `Promise.all`
 
-Promise chains let you run multiple tasks in sequence, but what if you want to run multiple tasks at the same time, and wait until they all complete? The `Promise.all` method lets you do just that.
-Promise 链式调用可以让你按顺序运行多个任务，但如果你想同时运行多个任务，并等待它们全部完成呢？`Promise.all` 方法可以让你做到这一点。
+Promise 链式调用可以让你按顺序运行多个任务，但如果你想同时运行多个任务，`Promise.all` 方法可以让你做到这一点。
 
-`Promise.all` takes an array of Promises, and returns a new Promise. This Promise will be fulfilled once all of the other Promises are fulfilled. The fulfillment value is an array containing the fulfillment values of each Promise in the input array.
-`Promise.all` 接受一个 Promise 数组，并返回一个新的 Promise。一旦所有其他 Promise 都完成，该 Promise 就会完成。完成值是一个数组，包含输入数组中每个 Promise 的完成值。
+`Promise.all` 接受一个 Promise 数组，并返回一个新的 Promise。一旦所有其他 Promise 都实现，该 Promise 就会实现。实现值是一个数组，包含输入数组中每个 Promise 的实现值。
 
-Suppose you have a function `loadUserProfile` that loads a user's profile data, and  another function `loadUserPosts` that loads a user's posts. They both take a user ID as the argument. There's a third function, `renderUserPage`, that needs both the profile and list of posts.
 假设你有一个函数 `loadUserProfile` 用于加载用户的个人资料数据，另一个函数 `loadUserPosts` 用于加载用户的帖子。它们都以用户 ID 作为参数。还有第三个函数 `renderUserPage` 需要同时获取用户的个人资料和帖子列表。
 
 ```javascript
@@ -388,19 +357,16 @@ Promise.all([profilePromise, postsPromise])
 
 使用 `Promise.all` 等待多个 Promise
 
-What about errors? If any of the Promises passed to `Promise.all` is rejected with an error, the resulting Promise is also rejected with that error. If any of the other Promises are fulfilled, those values are lost.
-如果出现错误怎么办呢？如果传递给 `Promise.all` 的任何一个 Promise 因错误而被拒绝，结果 Promise 也将被该错误拒绝。如果其他任何 Promise 被解决，那些值将会丢失。
+如果出现错误怎么办呢？如果传递给 `Promise.all` 的任何一个 Promise 因错误而被拒绝，结果 Promise 也将被该错误拒绝。如果其他任何 Promise 被实现，那些值将会丢失。
 
 ### 如何使用 `Promise.allSettled`
 
-The `Promise.allSettled` method works similarly to `Promise.all`. The main difference is that the Promise returned by `Promise.allSettled` will never be rejected.
 `Promise.allSettled` 方法的工作方式类似于 `Promise.all`。主要区别在于 `Promise.allSettled` 返回的 Promise 永远不会被拒绝。
 
-Instead, it is fulfilled with an array of objects, whose order corresponds to the order of the Promises in the input array. Each object has a `status` property which is either "fulfilled" or "rejected", depending on the result.
-相反，它会以一个对象数组来完成，这些对象的顺序对应于输入数组中的 Promise 的顺序。每个对象都有一个 `status` 属性，该属性根据结果分别为 "fulfilled（实现）" 或 "rejected（拒绝）"。
+相反，它会以一个对象数组来实现，这些对象的顺序对应于输入数组中的 Promise 的顺序。每个对象都有一个 `status` 属性，该属性根据结果分别为 "fulfilled（实现）" 或 "rejected（拒绝）"。
 
 If `status` is "fulfilled", the object will also have a `value` property indicating the Promise's fulfillment value. If `status` is "rejected", the object will instead have a `reason` property which is the error or other object the Promise was rejected with.
-如果 `status` 是 "fulfilled"，该对象还会有一个 `value` 属性，表示 Promise 的完成值。如果 `status` 是 "rejected"，对象将有一个 `reason` 属性，用来表示 Promise 的错误值或其他对象的错误值。
+如果 `status` 是 "fulfilled"，该对象还会有一个 `value` 属性，表示 Promise 的实现值。如果 `status` 是 "rejected"，对象将有一个 `reason` 属性，用来表示 Promise 的错误值或其他对象的错误值。
 
 Consider again a `getUser` function that takes a user ID and returns a Promise that is fulfilled with the user having that ID. You can use `Promise.allSettled` to load these in parallel, making sure to get all users that were loaded successfully.
 再看一个 `getUser` 函数，该函数接受一个用户 ID 并返回一个 Promise，该 Promise 将会被具有该 ID 的用户实现。你可以使用 `Promise.allSettled` 并行加载这些用户，确保获取到所有成功加载的用户。
@@ -558,16 +524,13 @@ The Promise returned by `Promise.race` will wait until the first of the given Pr
 
 ### 如何使用 `Promise.any`
 
-`Promise.any` works similarly to `Promise.race` with one key difference – where `Promise.race` will be done as soon as any Promise is fulfilled or rejected, `Promise.any` waits for the first _fulfilled_ Promise.
-`Promise.any` 的工作方式与 `Promise.race` 类似，但有一个关键区别 —— `Promise.race` 会在任何一个 Promise 被解决或被拒绝时完成，而 `Promise.any` 会等待第一个 _解决的_ Promise。
+`Promise.any` 的工作方式与 `Promise.race` 类似，但有一个关键区别 —— `Promise.race` 会在任何一个 Promise 被实现或被拒绝时完成，而 `Promise.any` 会等待第一个被 _实现的_ Promise。
 
 ## 如何使用 `async` 和 `await`
 
-`async` and `await` are special keywords that simplify working with Promises. They remove the need for callback functions and calls to `then` or `catch`. They work with try-catch blocks, as well.
-`async` 和 `await` 是简化处理 Promise 的特殊关键字。它们消除了对回调函数和调用 `then` 或 `catch` 的需求。它们也可以与 try-catch 代码块一起使用。
+`async` 和 `await` 是简化处理 Promise 的特殊关键字。它们消除了对回调函数和调用 `then` 或 `catch` 的需求。它们也可以与 try-catch 模块一起使用。
 
-Here's how it works. Instead of calling `then` on a Promise, you `await` it by putting the `await` keyword before it. This effectively "pauses" execution of the function until the Promise is fulfilled.
-它们的工作原理如下。你无需在 Promise 上调用 `then`，而是通过在它前面加上 `await` 关键词来“等待”它。这实际上会“暂停”函数的执行，直到 Promise 被解决。
+它们的工作原理如下。你无需在 Promise 上调用 `then`，而是通过在它前面加上 `await` 关键词来“等待”它。这实际上会“暂停”函数的执行，直到 Promise 被实现。
 
 以下是一个标准 Promise 的例子：
 
@@ -598,8 +561,7 @@ await writeFile(result, 'processedData.json');
 
 使用 `await` 链接 promise
 
-Remember that each usage of `await` will pause execution of the rest of the function until the Promise you are awaiting becomes fulfilled. If you want to await several Promises that run in parallel, you can use `Promise.all`:
-记住，每次使用 `await` 都会暂停函数的其余部分的执行，直到你等待的 Promise 被解决。如果你想等待多个并行运行的 Promise，你可以使用 `Promise.all`：
+记住，每次使用 `await` 都会暂停函数的其余部分的执行，直到你等待的 Promise 被实现。如果你想等待多个并行运行的 Promise，你可以使用 `Promise.all`：
 
 
 ```javascript
@@ -608,8 +570,7 @@ const users = await Promise.all([getUser(1), getUser(2), getUser(3)]);
 
 使用 `await` 的 Promise.all
 
-To use the `await` keyword, your function must be marked as an async function. You can do this by placing the `async` keyword before your function:
-要使用 `await` 关键字，你的函数必须标记为异步函数。你可以在函数前面加上 `async` 关键字来实现这一点：
+要使用 `await` 关键字，你的函数必须标记为异步函数。你可以在函数前面加上 `async` （异步）关键字来实现这一点：
 
 ```javascript
 async function processData(sourceFile, outputFile) {
@@ -621,8 +582,7 @@ async function processData(sourceFile, outputFile) {
 
 标记函数为 `async`
 
-Adding the `async` keyword also has another important effect on the function. Async functions always implicitly return a Promise. If you return a value from an async function, the function will actually return a Promise that is fulfilled with that value.
-添加 `async` 关键字还对函数产生了另一个重要影响。异步函数始终会隐式返回一个 Promise。如果你从异步函数中返回一个值，该函数实际上会返回一个以该值解决的 Promise。
+添加 `async` 关键字还对函数产生了另一个重要影响。异步函数始终会隐匿地返回一个 Promise。如果你从异步函数中返回一个值，该函数实际上会返回一个以该值实现的 Promise。
 
 ```javascript
 async function add(a, b) {
@@ -636,13 +596,11 @@ add(2, 3).then(sum => {
 
 一个 `async` 函数用于求两个数字的和
 
-In the above example, the function is returning the sum of the two arguments `a` and `b`. But since it's an `async` function, it doesn't return the sum but rather a Promise that is fulfilled with the sum.
-在上面的例子中，该函数返回两个参数 `a` 和 `b` 的和。但由于它是一个 `async` 函数，它不会直接返回和，而是返回一个以和解决的 Promise。
+在上面的例子中，该函数返回两个参数 `a` 和 `b` 的 _和_。但由于它是一个 `async` 函数，它不会直接返回 _和_，而是返回一个带有 _和_ 的被实现的 Promise 。
 
 ### 使用 `async` 和 `await` 进行错误处理
 
-We use `await` to wait for Promise to be fulfilled, but what about handling errors? If you are awaiting a Promise, and it is rejected, an error will be thrown. This means to handle the error, you can put it in a try-catch block:
-我们使用 `await` 来等待 Promise 被解决，但是如何处理错误呢？如果你等待一个 Promise，并且它被拒绝了，那么就会抛出一个错误。这意味着要处理错误，你可以将其放在一个 try-catch 块中：
+我们使用 `await` 来等待 Promise 被解决，但是如果你等待一个 Promise，并且它被拒绝了，就会抛出一个错误。你可以将其放在一个 try-catch 模块中来处理错误：
 
 ```javascript
 try {
@@ -660,8 +618,7 @@ try {
 
 ### 不需要创建新 Promise 的情况
 
-Sometimes there's no getting around creating a new Promise. But if you are already working with Promises returned by an API, you usually shouldn't need to create your own Promise:
-有时候无法避免创建新的 Promise。但是，如果你已经使用 API 返回的 Promise 在工作，通常不需要创建自己的 Promise：
+有时候无法避免创建新的 Promise。但是，如果已经有 API 返回的 Promise 你就不需要创建自己的：
 
 ```javascript
 function getUsers() {
@@ -675,8 +632,7 @@ function getUsers() {
 
 创建不必要的 Promise 的例子
 
-In this example, we're creating a new Promise to wrap the Fetch API, which already returns Promises. This is unnecessary. Instead, just return the Promise chain from the Fetch API directly:
-在这个例子中，我们创建一个新的 Promise 来包装 Fetch API，而 Fetch API 已经返回 Promise。这是不必要的。相反，直接返回 Fetch API 的 Promise 链式调用：
+在这个例子中，我们创建一个新的 Promise 来包装 Fetch API，而 Fetch API 已经返回 Promise。这是不必要的。我们可以直接返回 Fetch API 的 Promise 链式调用：
 
 ```javascript
 function getUsers() {
@@ -712,10 +668,8 @@ function getUsers() {
 }
 ```
 
-Swallowing the fetch error
 吞噬 Fetch 错误
 
-Error handling is good, right? You might be surprised by the result if we call this `getUsers` function:
 错误处理很好，对吧？如果我们调用这个 `getUsers` 函数，你可能会对结果感到惊讶：
 
 ```javascript
@@ -726,10 +680,8 @@ getUsers()
 
 调用 `getUsers`
 
-You might expect this to print "error", but it will actually print "Got users: undefined". This is because the `catch` call "swallows" the error and returns a new Promise that is fulfilled with the return value of the `catch` callback, which is `undefined` (`console.error` returns `undefined`). You'll still see the "Error loading users" log message from `getUsers`, but the returned Promise will be fulfilled, not rejected.
-你可能期望这会打印出 "error"，但实际上它会打印出 "Got users: undefined"。这是因为 `catch` 调用"吞噬"了错误，并返回一个新的 Promise，该 Promise 是通过 `catch` 回调的返回值进行解决的，而这个返回值是 `undefined`（`console.error` 返回 `undefined`）。你仍然会看到来自 `getUsers` 的 "Error loading users" 日志消息，但返回的 Promise 将会被解决，而不是被拒绝。
+你可能期望这会打印出 "error（错误）"，但实际上它会打印出 "Got users: undefined"。这是因为 `catch` 调用"吞噬"了错误，并返回一个新的 Promise，该 Promise 是通过 `catch` 回调的返回值进行解决的，而这个返回值是 `undefined`（`console.error` 返回 `undefined`）。你仍然会看到来自 `getUsers` 的 "Error loading users" 日志消息，但返回的 Promise 将会被解决，而不是被拒绝。
 
-If you want to catch the error inside the `getUsers` function and still reject the returned Promise, the `catch` handler needs to return a rejected Promise. You can do this by using `Promise.reject`.
 如果你想在 `getUsers` 函数内部捕获错误并且仍然拒绝返回的 Promise，`catch` 处理程序需要返回一个被拒绝的 Promise。你可以通过使用 `Promise.reject` 来实现这一点。
 
 ```javascript
