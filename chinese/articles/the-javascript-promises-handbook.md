@@ -24,7 +24,7 @@ reviewer: ""
 ## 目录
 
 1.  [Promise 是什么][3]
-2.  [Promises 与其他异步模式的比较][4]
+2.  [Promise 与其他异步模式的比较][4]
 3.  [如何创建一个 Promise][5]
 4.  [如何获取 Promise 的结果][6]
 5.  [如何使用`then`处理错误][7]
@@ -743,8 +743,8 @@ readFile(sourceFile)
 
 [1]: /news/tag/javascript/
 [2]: /news/author/joeattardi/
-[3]: #Promise是什么
-[4]: #Promises-与其他异步模式的比较
+[3]: #Promise-是什么
+[4]: #Promise-与其他异步模式的比较
 [5]: #如何创建-Promiose
 [6]: #如何获取-Promise-的结果
 [7]: #如何使用-then-处理错误
