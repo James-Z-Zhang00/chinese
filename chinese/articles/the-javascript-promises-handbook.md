@@ -365,11 +365,9 @@ Promise.all([profilePromise, postsPromise])
 
 相反，它会以一个对象数组来实现，这些对象的顺序对应于输入数组中的 Promise 的顺序。每个对象都有一个 `status` 属性，该属性根据结果分别为 "fulfilled（实现）" 或 "rejected（拒绝）"。
 
-If `status` is "fulfilled", the object will also have a `value` property indicating the Promise's fulfillment value. If `status` is "rejected", the object will instead have a `reason` property which is the error or other object the Promise was rejected with.
-如果 `status` 是 "fulfilled"，该对象还会有一个 `value` 属性，表示 Promise 的实现值。如果 `status` 是 "rejected"，对象将有一个 `reason` 属性，用来表示 Promise 的错误值或其他对象的错误值。
+如果 `status` 是 "fulfilled（被实现）"，该对象还会有一个 `value` 属性，表示 Promise 的实现值。如果 `status` 是 "rejected（被拒绝）"，对象将有一个 `reason` 属性，用来表示 Promise 的错误值或其他对象的错误值。
 
-Consider again a `getUser` function that takes a user ID and returns a Promise that is fulfilled with the user having that ID. You can use `Promise.allSettled` to load these in parallel, making sure to get all users that were loaded successfully.
-再看一个 `getUser` 函数，该函数接受一个用户 ID 并返回一个 Promise，该 Promise 将会被具有该 ID 的用户实现。你可以使用 `Promise.allSettled` 并行加载这些用户，确保获取到所有成功加载的用户。
+再看一个 `getUser` 函数，该函数接受一个用户 ID 并返回一个 Promise，该 Promise 将会被具有该 ID 的用户实现。你可以使用 `Promise.allSettled` 并行加载这些用户，确保获取所有成功加载的用户。
 
 ```javascript
 Promise.allSettled([
@@ -386,7 +384,6 @@ Promise.allSettled([
 
 尝试加载三个用户，并显示成功加载的用户
 
-You can make a general purpose `loadUsers` function that loads users, in parallel, given an array of user IDs. The function returns a Promise that is fulfilled with an array of all users that were successfully loaded.
 你可以创建一个通用的 `loadUsers` 函数，该函数接收一个用户 ID 数组，并且并行加载用户。该函数返回一个 Promise，当用户数组成功加载时，该 Promise 会被实现。
 
 ```javascript
@@ -400,10 +397,8 @@ function getUsers(userIds) {
 }
 ```
 
-A helper function to load multiple users in parallel, filtering out any requests that failed.
 一个辅助函数，用于并行加载多个用户，过滤掉任何失败的请求。
 
-Then, you can just call `getUsers` with an array of user IDs:
 然后，你只需使用一个用户 ID 数组调用 `getUsers`：
 
 ```javascript
@@ -415,11 +410,9 @@ getUsers([1, 2, 3])
 
 ## 如何创建立即实现或拒绝的 Promise
 
-Sometimes, you may want to wrap a value in a fulfilled Promise. For example, maybe you have an asynchronous function that returns a Promise, but there is a base case where you know the value ahead of time and you don't need to do any asynchronous work.
-有时，你可能希望将一个值包装在一个已解决的 Promise 中。例如，你有一个返回 Promise 的异步函数，并且你提前知道值，不需要进行任何异步工作。
+你希望将一个值包装在一个已实现的 Promise 中。例如，你有一个返回 Promise 的异步函数，并且你提前知道值，不需要进行任何异步工作。
 
-To do this, you can call `Promise.resolve` with a value. This returns a Promise that is immediately fulfilled with the value you specified:
-可以调用 `Promise.resolve`并且指定一个值，这将返回一个立即实现的 Promise，并带有你指定的值：
+可以调用 `Promise.resolve` 并且指定一个值，这会返回一个立即实现的 Promise，并带有你指定的值：
 
 ```javascript
 Promise.resolve('hello')
@@ -440,10 +433,8 @@ new Promise(resolve => {
 });
 ```
 
-To make your API more consistent, you can create an immediately fulfilled Promise and return that in such cases. This way, the code that calls your function knows to always expect a Promise, no matter what.
-为了使你的 API 更加一致，你可以创建一个立即解决的 Promise 并在这种情况下返回。这样，调用你函数的代码就知道无论如何总是会得到一个 Promise。
+你可以创建一个立即实现的 Promise 并在这种情况下返回来使你的 API 更加一致。这样，调用你函数的代码就知道无论如何总是会得到一个 Promise。
 
-For example, consider the `getUsers` function defined earlier. If the array of user IDs is empty, you could simply return an empty array because no users will be loaded.
 例如，考虑之前定义的 `getUsers` 函数。如果用户 ID 数组为空，你可以简单地返回一个空数组，因为不会加载任何用户。
 
 ```javascript
@@ -462,16 +453,12 @@ function getUsers(userIds) {
 }
 ```
 
-Adding an early return to the `getUsers` helper function
-在 `getUsers` 辅助函数中添加一个提前返回
+在 `getUsers` 辅助函数中添加一个提前返回的功能
 
-Another use for `Promise.resolve` is to handle the case where you are given a value that may or may not be a Promise, but you want to always treat it as a Promise.
 `Promise.resolve` 的另一个用途是处理你可能获得一个值，该值可能是也可能不是一个 Promise，但你想总是将它视为一个 Promise。
 
-You can safely call `Promise.resolve` on any value. If it was already a Promise, you'll just get another Promise that will have the same fulfillment or rejection value. If it was not a Promise, it will be wrapped in an immediately fulfilled Promise.
-你可以安全地对任何值调用 `Promise.resolve`。如果它已经是一个 Promise，你将得到另一个具有相同解决或拒绝值的 Promise。如果它不是一个 Promise，它将被包装在一个立即解决的 Promise 中。
+你可以安全地对任何值调用 `Promise.resolve`。如果它已经是一个 Promise，你将得到另一个具有相同实现或拒绝值的 Promise。如果它不是一个 Promise，它将被包装在一个立即实现的 Promise 中。
 
-The benefit of this approach is you don't have to do something like this:
 这种方法的好处是你不必做这样的事情：
 
 ```javascript
@@ -486,11 +473,9 @@ function getResult(result) {
 }
 ```
 
-Conditionally calling `then` based on whether or not something is a Promise
 根据是否是 Promise 有条件地调用 `then`
 
-Similarly, you can create an immediately rejected Promise with `Promise.reject`. Returning once again to the `getUsers` function, maybe we want to immediately reject if the user ID array is `null`, `undefined`, or not an array.
-同样，你可以使用 `Promise.reject` 创建一个立即拒绝的 Promise。再回到 `getUsers` 函数，如果用户 ID 数组是 `null`、`undefined` 或不是数组，我们可能希望立即拒绝。
+同样，你可以使用 `Promise.reject` 创建一个立即拒绝的 Promise。再回到 `getUsers` 函数，如果用户 ID 数组是 `null`、`undefined` 或不是数组，我们希望立即拒绝。
 
 ```javascript
 function getUsers(userIds) {
@@ -516,11 +501,9 @@ function getUsers(userIds) {
 
 ### 如何使用 `Promise.race`
 
-Just like `Promise.all` or `Promise.allSettled`, the `Promise.race` static method takes an array of Promises, and returns a new Promise. As the name implies, though, it works somewhat differently.
-就像 `Promise.all` 或 `Promise.allSettled` 一样，`Promise.race` 静态方法接收一个 Promise 数组，并返回一个新的 Promise。然而，顾名思义，它的工作方式有些不同。
+就像 `Promise.all` 或 `Promise.allSettled` 一样，`Promise.race` 静态方法接收一个 Promise 数组，并返回一个新的 Promise。只是它的工作方式有些不同。
 
-The Promise returned by `Promise.race` will wait until the first of the given Promises is fulfilled or rejected, and then that Promise will also be fulfilled or rejected, with the same value. When this happens, the fulfilled or rejected values of the other Promises are lost.
-`Promise.race` 返回的 Promise 会等待给定的 Promise 中第一个被解决或被拒绝的 Promise，然后该 Promise 也会以相同的值被解决或被拒绝。当这种情况发生时，其他 Promise 的解决或拒绝值将会丢失。
+`Promise.race` 返回的 Promise 会等待给定的 Promise 中第一个被实现或被拒绝的 Promise，然后该 Promise 也会以相同的值被实现或被拒绝。当这种情况发生时，其他 Promise 的实现或拒绝值将会丢失。
 
 ### 如何使用 `Promise.any`
 
@@ -655,7 +638,6 @@ getUsers()
 Client code for either version of the `getUsers` function ------ more accurate translation required
 `getUsers` 函数任何一种版本的客户端代码
 
-### Swallowing errors
 ### 吞噬错误
 
 来看这个版本的 `getUsers` 函数：
