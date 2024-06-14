@@ -583,7 +583,7 @@ add(2, 3).then(sum => {
 
 ### 使用 `async` 和 `await` 进行错误处理
 
-我们使用 `await` 来等待 Promise 被解决，但是如果你等待一个 Promise，并且它被拒绝了，就会抛出一个错误。你可以将其放在一个 try-catch 模块中来处理错误：
+我们使用 `await` 来等待 Promise 被实现，但是如果你等待一个 Promise，并且它被拒绝了，就会抛出一个错误。你可以将其放在一个 try-catch 模块中来处理错误：
 
 ```javascript
 try {
@@ -662,7 +662,7 @@ getUsers()
 
 调用 `getUsers`
 
-你可能期望这会打印出 "error（错误）"，但实际上它会打印出 "Got users: undefined"。这是因为 `catch` 调用"吞噬"了错误，并返回一个新的 Promise，该 Promise 是通过 `catch` 回调的返回值进行解决的，而这个返回值是 `undefined`（`console.error` 返回 `undefined`）。你仍然会看到来自 `getUsers` 的 "Error loading users" 日志消息，但返回的 Promise 将会被解决，而不是被拒绝。
+你可能期望这会打印出 "error（错误）"，但实际上它会打印出 "Got users: undefined"。这是因为 `catch` 调用"吞噬"了错误，并返回一个新的 Promise，该 Promise 是通过 `catch` 回调的返回值进行实现的，而这个返回值是 `undefined`（`console.error` 返回 `undefined`）。你仍然会看到来自 `getUsers` 的 "Error loading users" 日志消息，但返回的 Promise 将会被实现，而不是被拒绝。
 
 如果你想在 `getUsers` 函数内部捕获错误并且仍然拒绝返回的 Promise，`catch` 处理程序需要返回一个被拒绝的 Promise。你可以通过使用 `Promise.reject` 来实现这一点。
 
@@ -711,15 +711,15 @@ readFile(sourceFile)
 
 以下是使用 Promise 的关键要点：
 
--   Promise 可以是 pending（待定）、fulfilled（已解决）或 rejected（已拒绝）
+-   Promise 可以是 pending（待定）、fulfilled（已实现）或 rejected（已拒绝）
 -   如果一个 Promise 被实现（fulfilled）或被拒绝（rejected），它就是被解决了(settled),
--   使用 `then` 来获取 Promise 的解决值（以及进行下一步的操作）
+-   使用 `then` 来获取 Promise 的实现值（以及进行下一步的操作）
 -   使用 `catch` 来处理错误
 -   使用 `finally` 来执行在成功或错误情况下都需要的清理逻辑
 -   链接 Promise 以按顺序执行异步任务
 -   使用 `Promise.all` 来获得一个 Promise，当所有给定的 Promise 都被实现时它就会被实现（fulfilled），或当其中一个 Promise 被拒绝时它被拒绝（rejected）
 -   使用 `Promise.allSettled` 来获得一个 Promise，当所有给定的 Promise 都被实现（fulfilled）或被拒绝（rejected）时它被解决
--   使用 `Promise.race` 来获得一个 Promise，当给定的 Promise 中第一个被解决或被拒绝时它也被解决或被拒绝
+-   使用 `Promise.race` 来获得一个 Promise，当给定的 Promise 中第一个被实现或被拒绝时它也被实现或被拒绝
 -   使用 `Promise.any` 来获得一个 Promise，当给定的 Promise 中第一个被实现时它被实现
 -   使用 `await` 关键字来等待一个 Promise 的实现值
 -   使用 try-catch 模块来处理使用 `await` 关键字时产生的错误
